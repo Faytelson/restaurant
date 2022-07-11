@@ -2,70 +2,79 @@
 
 window.addEventListener("DOMContentLoaded", function(){
     //tabs
+    const tabParent = document.querySelector('.tabheader__items'),
+        tabs = document.querySelectorAll('.tabheader__item'),
+        contents = document.querySelectorAll('.tabcontent');
+
+    for(let i = 0; i < tabs.length; i ++) {
+        tabs[i].dataset.num = i;
+    }
+
+    tabParent.addEventListener('click', function(event){
+        if(event.target && event.target.classList.contains('tabheader__item')) {
+            contents.forEach(function(elem) {
+                elem.classList.remove('tabcontent_active');
+            });  
+            tabs.forEach(function(elem){
+                elem.classList.remove('tabheader__item_active');
+            })                    
+            event.target.classList.add('tabheader__item_active');
+            contents[event.target.dataset.num].classList.add('tabcontent_active');
+        }
+    });
 
     //timer
 
-    // const deadline = "2022-8-1";
-    
-    // function getTimeLeft(endTime) {
-    //     let t = Date.parse(endTime) - Date.parse(new Date());
-    //     return  t;
-    // }
-    // console.log(getTimeLeft(deadline));
-
-    const deadline = '2022-07-09';
-
+    const deadline = "2022-7-12";
 
     function getTimeLeft(endTime) {
         let t = Date.parse(endTime) - Date.parse(new Date()),
             days = Math.floor(t / (1000 * 60 * 60 * 24)),
             hours = Math.floor((t / (1000 * 60 * 60)) % 24),
-            minutes = Math.floor((t / (1000 * 60)) % 60),
-            seconds = Math.floor((t / 1000) % 60);
+            mins = Math.floor((t / 1000 / 60) % 60),
+            secs = Math.floor((t / 1000) % 60);
 
             return {
                 total: t,
                 days,
                 hours,
-                minutes,
-                seconds,
+                mins,
+                secs,
             }
     }
 
     function setTimer(selector, endTime) {
-        const timer = document.querySelector(selector),
+        let timer = document.querySelector(selector),
             daysField = timer.querySelector('#days'),
             hoursField = timer.querySelector('#hours'),
-            minutesField = timer.querySelector('#minutes'),
-            secondsField = timer.querySelector('#seconds'),
+            minsField = timer.querySelector('#minutes'),
+            secsField = timer.querySelector('#seconds'),
             timeInterval = setInterval(updateTimer, 1000);
 
         updateTimer();
-
+            
         function updateTimer() {
-            let {total, days, hours, minutes, seconds} = getTimeLeft(deadline);
-
-            daysField.innerHTML = addZero(days);
-            hoursField.innerHTML = addZero(hours);
-            minutesField.innerHTML = addZero(minutes);
-            secondsField.innerHTML = addZero(seconds);
+            let {total, days, hours, mins, secs} = getTimeLeft(endTime);
+            daysField.innerHTML = addZero(days),
+            hoursField.innerHTML = addZero(hours),
+            minsField.innerHTML = addZero(mins),
+            secsField.innerHTML = addZero(secs);
 
             if(total <= 0) {
-                clearInterval(timeInterval);
+                daysField.innerHTML = addZero(0),
+                hoursField.innerHTML = addZero(0),
+                minsField.innerHTML = addZero(0),
+                secsField.innerHTML = addZero(0);
 
-                daysField.innerHTML = addZero(0);
-                hoursField.innerHTML = addZero(0);
-                minutesField.innerHTML = addZero(0);
-                secondsField.innerHTML = addZero(0);
+                clearInterval(timeInterval);
             }
         }
 
         function addZero(num) {
             if(num >= 0 && num < 10) {
-                return num = '0' + num;
+                return `0${num}`;
             } else return num;
         }
-
     }
-    setTimer('.timer', deadline)
+    setTimer('.timer', deadline);
 });
