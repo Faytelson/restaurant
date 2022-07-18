@@ -25,7 +25,7 @@ window.addEventListener("DOMContentLoaded", function(){
 
     //timer
 
-    const deadline = "2022-7-12";
+    const deadline = "2022-9-29";
 
     function getTimeLeft(endTime) {
         let t = Date.parse(endTime) - Date.parse(new Date()),
@@ -77,4 +77,36 @@ window.addEventListener("DOMContentLoaded", function(){
         }
     }
     setTimer('.timer', deadline);
+
+    //modal
+
+    let btns = document.querySelectorAll('[data-modal-open]'),
+        modal = document.querySelector('.modal'),
+        btnCloseModal = this.document.querySelector('[data-modal-close]');
+
+    btns.forEach(function(btn){
+        btn.addEventListener('click', function(){
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        })
+    });
+
+    function closeModal() {
+        modal.style.display = 'none';
+        document.body.style.overflow = '';
+    }
+    btnCloseModal.addEventListener('click', closeModal)
+
+    modal.addEventListener('click', function(event) {
+        if(event.target === modal) {
+            closeModal();
+        }
+    });
+
+    document.addEventListener('keydown', (event) => {
+        if(event.code === 'Escape' && modal.style.display == 'block') {
+            closeModal();
+            console.log('yes')
+        }
+    })
 });
