@@ -1,5 +1,5 @@
 "use strict";
-// window.addEventListener('DOMContentLoaded', function(){
+window.addEventListener('DOMContentLoaded', function(){
 
 
     //tabs
@@ -94,8 +94,8 @@
     (function() {
         const btns = document.querySelectorAll('[data-modal-open'),
         modal = document.querySelector('.modal'),
-        btnCloseModal = document.querySelector('[data-modal-close');
-        // timeInt = setTimeout(showModal, 5000);
+        btnCloseModal = document.querySelector('[data-modal-close'),
+        timeInt = setTimeout(showModal, 5000);
 
         function showModal() {
             modal.style.display = 'block';
@@ -201,4 +201,4 @@
             '.menu .container'
             ).render();
     })();
-// });
+});
